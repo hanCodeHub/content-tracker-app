@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Here is the tracked content</h1>
+    {% for content in contents %}
+        <h3>{{ content.content_name }} is owned by {{ content.owner_name }}</h3>
+        <p>date created: {{ content.created_date }}</p>
+        <p>date expired: {{ content.expired_date }}</p>
+    {% endfor %}
+{% endblock content %}
