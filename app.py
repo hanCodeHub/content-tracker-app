@@ -1,7 +1,8 @@
 from flask import Flask, render_template, url_for
+from datetime import date, timedelta
+
 from forms import ContentForm
 
-from datetime import date, timedelta
 
 app = Flask(__name__)
 
