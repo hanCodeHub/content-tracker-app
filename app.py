@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, flash, redirect, url_for
 from datetime import date, timedelta
 
 from forms import ContentForm
@@ -42,9 +42,14 @@ def inventory():
                            contents=contents,
                            title='Content Lifecycle')
 
-@app.route("/content_form")
+@app.route("/content_form", methods=['GET', 'POST'])
 def content():
+    # instantiate the form object and render the form HTML page
     form = ContentForm()
+    if form.validate_on_submit():
+        flash(f'Your {form.content_type.data} has been added!', 'success')
+        return redirect(url_for('home'))
+
     return render_template('content_form.html',
                            title='Content Form',
                            form=form)

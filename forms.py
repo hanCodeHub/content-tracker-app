@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField
+from wtforms import StringField, IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Email, NumberRange
 
 
@@ -9,6 +9,17 @@ class ContentForm(FlaskForm):
                                validators=[
                                    DataRequired(), Length(min=5, max=30)
                                ])
+
+    content_type = SelectField('Content Type',
+                               choices=[('course', 'course package'),
+                                        ('video', 'video'),
+                                        ('audio', 'audio'),
+                                        ('article', 'article/blog'),
+                                        ('ppt', 'presentation'),
+                                        ('img', 'graphic'),
+                                        ('code', 'code snippet')],
+                               validators=[DataRequired()]
+                               )
 
     owner_name = StringField('Owner Name',
                              validators=[
