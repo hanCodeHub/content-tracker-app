@@ -31,10 +31,12 @@ contents = [
     }
 ]
 
+
 @app.route("/")
 @app.route("/home")
 def home():
     return render_template('home.html')
+
 
 @app.route("/inventory")
 def inventory():
@@ -42,17 +44,23 @@ def inventory():
                            contents=contents,
                            title='Content Lifecycle')
 
-@app.route("/content_form", methods=['GET', 'POST'])
+
+@app.route("/content", methods=['GET', 'POST'])
 def content():
     # instantiate the form object and render the form HTML page
     form = ContentForm()
+
     if form.validate_on_submit():
-        flash(f'Your {form.content_type.data} has been added!', 'success')
-        return redirect(url_for('home'))
+        choice = form.content_type.data
+        choices = dict(ContentForm.SELECT_CHOICES)
+
+        flash(f'Your {(choices.get(choice)).lower()} has been added!')
+        return redirect(url_for('inventory'))
 
     return render_template('content_form.html',
                            title='Content Form',
                            form=form)
+
 
 # only true if run from app.py
 if __name__ == '__main__':
