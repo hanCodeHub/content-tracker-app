@@ -3,8 +3,11 @@
 <div class="container">
     <form method="POST" action=""> <!-- will post form data to the same route -->
         {{ form.hidden_tag() }}
+
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Add New Content</legend>
+
+            <!-- Content Name -->
             <div class="form-group">
                 {{ form.content_name.label(class="form-control-label") }}
                 {% if form.content_name.errors %}
@@ -18,6 +21,7 @@
                     {{ form.content_name(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <!-- Content Type -->
             <div class="form-group">
                 {{ form.content_type.label(class="form-control-label") }}
                     {% if form.content_type.errors %}
@@ -31,19 +35,7 @@
                     {{ form.content_type(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
-            <div class="form-group">
-                {{ form.owner_name.label(class="form-control-label") }}
-                    {% if form.owner_name.errors %}
-                    {{ form.owner_name(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.owner_name.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.owner_name(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
+            <!-- Owner Email -->
             <div class="form-group">
                 {{ form.owner_email.label(class="form-control-label") }}
                     {% if form.owner_email.errors %}
@@ -57,6 +49,7 @@
                     {{ form.owner_email(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <!-- Valid Months -->
             <div class="form-group">
                 {{ form.valid_months.label(class="form-control-label") }}
                     {% if form.valid_months.errors %}
@@ -71,6 +64,7 @@
                 {% endif %}
             </div>
         </fieldset>
+
         <div class="form-group">
             {{ form.submit(class="btn btn-success") }}
         </div>

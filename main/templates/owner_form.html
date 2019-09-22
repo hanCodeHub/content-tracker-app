@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+<!-- Form for adding new owners -->
+{% block content %}
+<div class="container">
+    <form method="POST" action=""> <!-- will post form data to the same route -->
+        {{ form.hidden_tag() }}
+
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Add New Owner</legend>
+
+            <!-- Owner name -->
+            <div class="form-group">
+                {{ form.owner_name.label(class="form-control-label") }}
+                    {% if form.owner_name.errors %}
+                    {{ form.owner_name(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.owner_name.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.owner_name(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <!-- Owner email-->
+            <div class="form-group">
+                {{ form.owner_email.label(class="form-control-label") }}
+                    {% if form.owner_email.errors %}
+                    {{ form.owner_email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.owner_email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.owner_email(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+
+        </fieldset>
+        <!-- Submit button -->
+        <div class="form-group">
+            {{ form.submit(class="btn btn-success") }}
+        </div>
+    </form>
+</div>
+{% endblock content %}
