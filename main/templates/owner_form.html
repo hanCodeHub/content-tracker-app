@@ -2,7 +2,7 @@
 <!-- Form for adding new owners -->
 {% block content %}
 <div class="container">
-    <form method="POST" action=""> <!-- will post form data to the same route -->
+    <form method="POST" action="" class="mb-5"> <!-- will post form data to the same route -->
         {{ form.hidden_tag() }}
 
         <fieldset class="form-group">
@@ -43,5 +43,30 @@
             {{ form.submit(class="btn btn-success") }}
         </div>
     </form>
+
+    <table class="table">
+        <!-- Table headers -->
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id #</th>
+            <th scope="col">Owner Name</th>
+            <th scope="col">Owner Email</th>
+            <th scope="col">Date Joined</th>
+        </tr>
+        </thead>
+
+        <!-- Table body -->
+        <tbody>
+        {% for owner in owners %}
+            <tr>
+                <th scope="row">{{ owner.id }}</th>
+                <td>{{ owner.owner_name }}</td>
+                <td>{{ owner.owner_email }}</td>
+                <td>{{ owner.joined_at }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 </div>
 {% endblock content %}
