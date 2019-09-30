@@ -11,7 +11,7 @@
             <!-- Owner name -->
             <div class="form-group">
                 {{ form.owner_name.label(class="form-control-label") }}
-                    {% if form.owner_name.errors %}
+                {% if form.owner_name.errors %}
                     {{ form.owner_name(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.owner_name.errors %}
@@ -22,10 +22,11 @@
                     {{ form.owner_name(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
             <!-- Owner email-->
             <div class="form-group">
                 {{ form.owner_email.label(class="form-control-label") }}
-                    {% if form.owner_email.errors %}
+                {% if form.owner_email.errors %}
                     {{ form.owner_email(class="form-control form-control-lg is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.owner_email.errors %}

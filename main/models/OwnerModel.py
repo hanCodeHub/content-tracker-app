@@ -8,7 +8,7 @@ class Owner(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     owner_name = db.Column(db.String(20), nullable=False)
     owner_email = db.Column(db.String(50), unique=True, nullable=False)
-    joined_at = db.Column(db.DateTime, nullable=False)
+    joined_at = db.Column(db.Date, nullable=False)
 
     # each owner can relate to many contents
     contents = db.relationship('Content', backref='owners', lazy=True)

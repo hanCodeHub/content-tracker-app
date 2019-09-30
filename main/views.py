@@ -25,7 +25,8 @@ def content():
         # build dictionary from all choices. then get value from choice data
         choice = form.content_type.data
         choices = dict(ContentForm.SELECT_CHOICES)
-        flash(f'Your {(choices.get(choice)).lower()} has been added!')
+        
+        flash(f'Your {(choices.get(choice)).lower()} has been added!', 'success')
         return redirect(url_for('inventory'))
 
     return render_template('content_form.html', title='Content Form', form=form)
@@ -45,17 +46,20 @@ def owner():
 
         # validate whether owner already exists
         if Owner.find_by_email(email):
-            flash(f'User with email {email} already exists!')
+            flash(f'User with email {email} already exists!', 'danger')
+            return redirect(url_for('owner'))
 
         # create and save the new owner with form data
         new_owner = Owner(owner_name=name,
                           owner_email=email,
-                          joined_at=date.today().split(' ')[0])
+                          joined_at=date.today()
+                          )
         new_owner.save_owner()
-        flash(f'User {name} has been created!')
+        flash(f'User {name} has been created!', 'success')
 
     # Get all existing owners from the database and render the view
     owners = Owner.get_all_owners()
+    print(owners)
     return render_template('owner_form.html',
                            title='Owner Form',
                            form=form,

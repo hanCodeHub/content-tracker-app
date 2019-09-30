@@ -11,4 +11,3 @@ navLinks.forEach((link) => {
         link.parentElement.classList.add('active')
     }
 })
-
