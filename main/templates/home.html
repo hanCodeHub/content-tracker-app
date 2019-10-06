@@ -9,8 +9,12 @@
         </p>
         <hr class="my-4">
         <p>Start by either adding new content or updating existing content.</p>
-        <a class="btn btn-primary btn-lg" href="#" role="button">Add content</a>
-        <a class="btn btn-secondary btn-lg" href="#" role="button">Update content</a>
+        <a class="btn btn-primary btn-lg" href="{{ url_for('content') }}" role="button">
+            Add content
+        </a>
+        <a class="btn btn-secondary btn-lg" href="{{ url_for('owner') }}" role="button">
+            Add content owner
+        </a>
     </div>
 </div>
 {% endblock header %}

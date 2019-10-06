@@ -6,61 +6,26 @@ from main.models.ContentModel import Content
 from main.models.OwnerModel import Owner
 from main.forms import ContentForm, OwnerForm
 
+from main.routes import inventory_routes, content_routes, owner_routes
+
 # APP ENDPOINTS
+
+# Routes for homepage
 @app.route("/")
+def index():
+    return redirect(url_for('home'))
 @app.route("/home")
 def home():
     return render_template('home.html')
 
-@app.route("/inventory")
+@app.route('/inventory')
 def inventory():
-    return render_template('inventory.html', title='Content Lifecycle')
+    return inventory_routes.inventory_index()
 
 @app.route("/content", methods=['GET', 'POST'])
 def content():
-    # user is redirected to Inventory page after submitting ContentForm
-    form = ContentForm()
-
-    if form.validate_on_submit():
-        # build dictionary from all choices. then get value from choice data
-        choice = form.content_type.data
-        choices = dict(ContentForm.SELECT_CHOICES)
-        
-        flash(f'Your {(choices.get(choice)).lower()} has been added!', 'success')
-        return redirect(url_for('inventory'))
-
-    return render_template('content_form.html', title='Content Form', form=form)
+    return content_routes.content_index()
 
 @app.route("/owners", methods=['GET', 'POST'])
 def owner():
-    # Owner page is reset after user submits OwnerForm
-    form = OwnerForm()
-
-    # Following if block executes when the form is submitted and validated
-    if form.validate_on_submit():
-        # obtain the data from the form and clear the form fields
-        name = form.owner_name.data
-        email = form.owner_email.data
-        form.owner_email.data = ''
-        form.owner_name.data = ''
-
-        # validate whether owner already exists
-        if Owner.find_by_email(email):
-            flash(f'User with email {email} already exists!', 'danger')
-            return redirect(url_for('owner'))
-
-        # create and save the new owner with form data
-        new_owner = Owner(owner_name=name,
-                          owner_email=email,
-                          joined_at=date.today()
-                          )
-        new_owner.save_owner()
-        flash(f'User {name} has been created!', 'success')
-
-    # Get all existing owners from the database and render the view
-    owners = Owner.get_all_owners()
-    print(owners)
-    return render_template('owner_form.html',
-                           title='Owner Form',
-                           form=form,
-                           owners=owners)
+    return owner_routes.owner_index()

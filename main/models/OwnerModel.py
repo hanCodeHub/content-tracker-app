@@ -1,17 +1,17 @@
 from main import db
 
-
 class Owner(db.Model):
     __tablename__ = 'owners'
 
-    # owners columns
+    # owners columns - each owner must have an unique email
     id = db.Column(db.Integer, primary_key=True)
     owner_name = db.Column(db.String(20), nullable=False)
     owner_email = db.Column(db.String(50), unique=True, nullable=False)
     joined_at = db.Column(db.Date, nullable=False)
 
     # each owner can relate to many contents
-    contents = db.relationship('Content', backref='owners', lazy=True)
+    # relationship(ChildClass, reference_variable, lazy_loading)
+    contents = db.relationship('Content', backref='owner', lazy=True)
 
     def __init__(self, owner_name, owner_email, joined_at):
         self.owner_name = owner_name
@@ -23,23 +23,25 @@ class Owner(db.Model):
 
     @classmethod
     def find_by_email(cls, email):
-        # query rows with the correct email, and fetch the first record
+        """Returns the first owner record matching the correct email"""
         return cls.query.filter_by(owner_email=email).first()
 
     @classmethod
     def find_by_name(cls, name):
-        # query rows with the correct owner name, and fetch all records
+        """Returns all the owner records matching the correct name"""
         return cls.query.filter_by(owner_name=name).all()
 
     @classmethod
     def get_all_owners(cls):
+        """Returns all the owners in the owners table"""
         return cls.query.all()
 
     def save_owner(self):
-        # add() creates a new record if not exist, otherwise updates existing
+        """Saves an owner to the owners table"""
         db.session.add(self)
         db.session.commit()
 
     def delete_owner(self):
+        """Deletes an owner from the owners table"""
         db.session.delete(self)
         db.session.commit()
