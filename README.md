@@ -6,6 +6,7 @@
 * flask-wtf
 * flask_sqlalchemy
 * bootstrap (CDN)
+* sqlite3 (in-memory)
 
 ## Description
 
