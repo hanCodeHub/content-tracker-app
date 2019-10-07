@@ -99,7 +99,9 @@
                     <td>{{ content.content_type }}</td>
                     <td>{{ content.updated_at }}</td>
                     <td>{{ content.valid_months }}</td>
-                    <td>{{ owner_names[content.owner_id] }}</td>
+                    <td>
+                       {{ owner_names.get(content.id) }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

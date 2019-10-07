@@ -41,9 +41,16 @@ def owner_index():
 def owner_delete(owner_id):
     """Processing of the endpoint /owner/delete?owner_id to delete an owner"""
 
-    # if the owner is found, it is deleted and user is redirected to owner page
     owner = Owner.find_by_id(owner_id)
-    if owner:
-        owner.delete_owner()
-    flash(f'Owner {owner.owner_name} deleted!', 'success')
+    # can only delete owner if it exists and has no contents
+    if not owner:
+        flash(f'Owner does not exist!', 'danger')
+        return redirect(url_for('owner'))
+    elif owner.contents:
+        flash(f'{owner.owner_name} still has existing content!', 'danger')
+        return redirect(url_for('owner'))
+
+    # owner is deleted and user is redirected to owner page
+    owner.delete_owner()
+    flash(f'{owner.owner_name} has been deleted!', 'success')
     return redirect(url_for('owner'))

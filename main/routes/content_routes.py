@@ -48,14 +48,16 @@ def content_index():
     contents = Content.get_all_content()
 
     # if there are contents, a dict holds owner id:name pairs for each content
-    owner_names_by_id = {}
+    owner_names = {}
     if contents:
         for content in contents:
-            content_owner_name = Owner.find_by_id(content.owner_id).owner_name
-            owner_names_by_id[content.id] = content_owner_name
+            # for each content the owner is found
+            content_owner = Owner.find_by_id(content.owner_id)
+            if content_owner:
+                owner_names[content.id] = content_owner.owner_name
 
     return render_template('content_form.html',
                            title='Content Form',
                            form=form,
                            contents=contents,
-                           owner_names=owner_names_by_id)
+                           owner_names=owner_names)
