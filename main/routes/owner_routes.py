@@ -5,6 +5,8 @@ from main.models.OwnerModel import Owner
 from main.forms import OwnerForm
 
 def owner_index():
+    """Processing of the endpoint /owners which handles the owner form"""
+
     # Owner page is reset after user submits OwnerForm
     form = OwnerForm()
 
@@ -35,3 +37,13 @@ def owner_index():
                            title='Owner Form',
                            form=form,
                            owners=owners)
+
+def owner_delete(owner_id):
+    """Processing of the endpoint /owner/delete?owner_id to delete an owner"""
+
+    # if the owner is found, it is deleted and user is redirected to owner page
+    owner = Owner.find_by_id(owner_id)
+    if owner:
+        owner.delete_owner()
+    flash(f'Owner {owner.owner_name} deleted!', 'success')
+    return redirect(url_for('owner'))

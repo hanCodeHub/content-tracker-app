@@ -29,3 +29,7 @@ def content():
 @app.route("/owners", methods=['GET', 'POST'])
 def owner():
     return owner_routes.owner_index()
+
+@app.route("/owners/delete/<int:owner_id>")
+def owner_delete(owner_id):
+    return owner_routes.owner_delete(owner_id)

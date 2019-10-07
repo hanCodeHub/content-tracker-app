@@ -6,7 +6,7 @@ from main.models.OwnerModel import Owner
 from main.forms import ContentForm
 
 def content_index():
-    """Returns the endpoint for /content which handles the content form"""
+    """Processing for the endpoint /content which handles the content form"""
 
     form = ContentForm()
     # Upon successful submission of form:
