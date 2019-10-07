@@ -27,9 +27,9 @@ class Owner(db.Model):
         return cls.query.filter_by(owner_email=email).first()
 
     @classmethod
-    def find_by_name(cls, name):
-        """Returns all the owner records matching the correct name"""
-        return cls.query.filter_by(owner_name=name).all()
+    def find_by_id(cls, _id):
+        """Returns the first owner record matching the correct id"""
+        return cls.query.filter_by(id=_id).first()
 
     @classmethod
     def get_all_owners(cls):

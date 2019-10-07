@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <form method="POST" action=""> <!-- will post form data to the same route -->
+    <!-- form data is posted to the same route -->
+    <form method="POST" action="" class="mb-5 border-bottom">
         {{ form.hidden_tag() }}
 
         <fieldset class="form-group">
@@ -75,6 +76,7 @@
     </form>
 
     {% if contents %}
+    <header class="h4 mb-2">Existing Content</header>
         <table class="table">
             <!-- Table headers -->
             <thead class="thead-dark">
@@ -97,7 +99,7 @@
                     <td>{{ content.content_type }}</td>
                     <td>{{ content.updated_at }}</td>
                     <td>{{ content.valid_months }}</td>
-                    <td>{{ content.owner_id }}</td>
+                    <td>{{ owner_names[content.owner_id] }}</td>
                 </tr>
             {% endfor %}
             </tbody>

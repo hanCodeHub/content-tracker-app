@@ -2,7 +2,8 @@
 <!-- Form for adding new owners -->
 {% block content %}
 <div class="container">
-    <form method="POST" action="" class="mb-5"> <!-- will post form data to the same route -->
+    <!-- form data is posted to the same route -->
+    <form method="POST" action="" class="mb-5 border-bottom">
         {{ form.hidden_tag() }}
 
         <fieldset class="form-group">

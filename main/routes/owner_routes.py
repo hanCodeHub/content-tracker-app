@@ -31,7 +31,6 @@ def owner_index():
 
     # Get all existing owners from the database and render the view
     owners = Owner.get_all_owners()
-
     return render_template('owner_form.html',
                            title='Owner Form',
                            form=form,
