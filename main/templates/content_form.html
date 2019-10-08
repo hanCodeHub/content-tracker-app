@@ -81,12 +81,12 @@
             <!-- Table headers -->
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Id #</th>
-                <th scope="col">Content Name</th>
-                <th scope="col">Content Type</th>
-                <th scope="col">Updated At</th>
-                <th scope="col">Valid_months</th>
-                <th scope="col">Owner</th>
+                <th scope="col" class="text-center">Id #</th>
+                <th scope="col" class="text-center">Content Name</th>
+                <th scope="col" class="text-center">Content Type</th>
+                <th scope="col" class="text-center">Updated At</th>
+                <th scope="col" class="text-center">Valid_months</th>
+                <th scope="col" class="text-center">Owner</th>
             </tr>
             </thead>
 
@@ -94,14 +94,13 @@
             <tbody>
             {% for content in contents %}
                 <tr>
-                    <th scope="row">{{ content.id }}</th>
-                    <td>{{ content.content_name }}</td>
-                    <td>{{ content.content_type }}</td>
-                    <td>{{ content.updated_at }}</td>
-                    <td>{{ content.valid_months }}</td>
-                    <td>
-                       {{ owner_names.get(content.id) }}
-                    </td>
+                    <th scope="row" class="text-center">{{ content.id }}</th>
+                    <td class="text-center">{{ content.content_name }}</td>
+                    <td class="text-center">{{ content.content_type }}</td>
+                    <td class="text-center">{{ content.updated_at }}</td>
+                    <td class="text-center">{{ content.valid_months }}</td>
+                    <!-- owner name is retrieved from dictionary using content id -->
+                    <td class="text-center">{{ owner_data.get(content.id) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

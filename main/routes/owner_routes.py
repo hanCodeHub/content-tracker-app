@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, jsonify
 from datetime import date
 
 from main.models.OwnerModel import Owner
@@ -42,16 +42,16 @@ def owner_delete(owner_id):
     """Processing of the endpoint /owner/delete?owner_id to delete an owner"""
 
     owner = Owner.find_by_id(owner_id)
-    # can only delete owner if it exists and has no contents
+    # flash error message if owner does not exist
     if not owner:
         flash(f'Owner does not exist!', 'danger')
-        return redirect(url_for('owner'))
+        return jsonify('not deleted')
+    # flash error message if owner still has existing content
     elif owner.contents:
-        print('here')
         flash(f'{owner.owner_name} still has existing content!', 'danger')
-        return redirect(url_for('owner'))
+        return jsonify('not deleted')
 
     # owner is deleted and user is redirected to owner page
     owner.delete_owner()
     flash(f'{owner.owner_name} has been deleted!', 'success')
-    return redirect(url_for('owner'))
+    return jsonify('deleted')

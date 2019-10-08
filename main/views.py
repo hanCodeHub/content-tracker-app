@@ -29,5 +29,6 @@ def owner():
 
 @app.route("/owners/delete", methods=['DELETE'])
 def owner_delete():
+    # owner_id is in json payload, supplied by fetch from the browser (owner.js)
     owner_id = request.get_json()['owner_id']
     return owner_routes.owner_delete(owner_id)

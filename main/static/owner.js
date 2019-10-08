@@ -1,30 +1,19 @@
-// Prompts users for confirmation when deleting owners
-if (window.location.pathname === '/owners') {
-    // Obtains all trash icon elements
-    const allTrash = document.querySelectorAll('.trash')
+// onclick handler function for deleting owners on the owners page
+async function deleteOwner(ownerId) {
 
-    // For each trash icon, add an eventlistener that triggers prompt upon click
-    allTrash.forEach(e => {
-        e.addEventListener('click', () => {
-            const question = 'Are you sure you want to delete this owner?'
-            // If user confirms, send request to delete endpoint
-            if (window.confirm(question)) {
-                const id = e.parentElement.parentElement.children[0].innerHTML
-                const url = window.location.href + '/delete'
-                const data = {owner_id: id}
+    // If user confirms, send fetch request to delete endpoint
+    const question = 'Are you sure you want to delete this owner?'
+    if (window.confirm(question)) {
 
-                return fetch(url, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    redirect: 'manual',
-                    body: JSON.stringify(data)
-                })
-                .then((res) => location.pathname = '/owners')
-                .catch(err => err)
-                
-            }
-        })
-    });
+        // DELETE request is fetched with ownerId
+        return await fetch(window.location.href + '/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ owner_id: ownerId })
+        }) // user is redirected to refresh/update owners page
+            .then((res) => location.pathname = '/owners')
+            .catch(err => console.log(err))
+    }
 }

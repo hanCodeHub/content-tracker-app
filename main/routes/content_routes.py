@@ -47,17 +47,17 @@ def content_index():
     # GET all existing contents and render it in the view
     contents = Content.get_all_content()
 
-    # if there are contents, a dict holds owner id:name pairs for each content
-    owner_names = {}
+    # owner_id:owner_name pairs for each content is stored in owner_data
+    owner_data = {}
     if contents:
         for content in contents:
             # for each content the owner is found
             content_owner = Owner.find_by_id(content.owner_id)
             if content_owner:
-                owner_names[content.id] = content_owner.owner_name
+                owner_data[content.id] = content_owner.owner_name
 
     return render_template('content_form.html',
                            title='Content Form',
                            form=form,
                            contents=contents,
-                           owner_names=owner_names)
+                           owner_data=owner_data)

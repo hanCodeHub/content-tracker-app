@@ -52,11 +52,11 @@
         <!-- Table headers -->
         <thead class="thead-dark">
         <tr>
-            <th scope="col">Id #</th>
-            <th scope="col">Owner Name</th>
-            <th scope="col">Owner Email</th>
-            <th scope="col">Date Joined</th>
-            <th scope="col">Actions</th>
+            <th scope="col" class="text-center">Id #</th>
+            <th scope="col" class="text-center">Owner Name</th>
+            <th scope="col" class="text-center">Owner Email</th>
+            <th scope="col" class="text-center">Date Joined</th>
+            <th scope="col" class="text-center">Actions</th>
         </tr>
         </thead>
 
@@ -64,13 +64,15 @@
         <tbody>
         {% for owner in owners %}
             <tr>
-                <th scope="row">{{ owner.id }}</th>
-                <td>{{ owner.owner_name }}</td>
-                <td>{{ owner.owner_email }}</td>
-                <td>{{ owner.joined_at }}</td>
-                <td><a type="button" class="trash">
-                    <img src="../static/trash_icon.png">
-                </a></td>
+                <th scope="row" class="text-center">{{ owner.id }}</th>
+                <td class="text-center">{{ owner.owner_name }}</td>
+                <td class="text-center">{{ owner.owner_email }}</td>
+                <td class="text-center">{{ owner.joined_at }}</td>
+                <td class="text-center"> <!-- Pass owner.id into the fetch DELETE request -->
+                    <a type="button" class="trash" onclick="deleteOwner('{{ owner.id }}')">
+                        <img src="../static/trash_icon.png">
+                    </a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
