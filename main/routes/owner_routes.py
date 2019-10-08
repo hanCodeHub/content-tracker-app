@@ -47,6 +47,7 @@ def owner_delete(owner_id):
         flash(f'Owner does not exist!', 'danger')
         return redirect(url_for('owner'))
     elif owner.contents:
+        print('here')
         flash(f'{owner.owner_name} still has existing content!', 'danger')
         return redirect(url_for('owner'))
 

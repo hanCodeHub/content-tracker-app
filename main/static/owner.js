@@ -10,7 +10,20 @@ if (window.location.pathname === '/owners') {
             // If user confirms, send request to delete endpoint
             if (window.confirm(question)) {
                 const id = e.parentElement.parentElement.children[0].innerHTML
-                window.location.pathname = `owners/delete/${id}`
+                const url = window.location.href + '/delete'
+                const data = {owner_id: id}
+
+                return fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    redirect: 'manual',
+                    body: JSON.stringify(data)
+                })
+                .then((res) => location.pathname = '/owners')
+                .catch(err => err)
+                
             }
         })
     });
