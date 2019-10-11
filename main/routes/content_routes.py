@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, jsonify
 from datetime import date
 
 from main.models.ContentModel import Content
@@ -8,8 +8,8 @@ from main.forms import ContentForm
 def content_index():
     """Processing for the endpoint /content which handles the content form"""
 
+    # Following block executes to handle submission of ContentForm
     form = ContentForm()
-    # Upon successful submission of form:
     if form.validate_on_submit():
         choice = form.content_type.data  # content type choice by user
         choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
@@ -56,8 +56,36 @@ def content_index():
             if content_owner:
                 owner_data[content.id] = content_owner.owner_name
 
-    return render_template('content_form.html',
+    # view is rendered with all contents and owner data
+    return render_template('content.html',
                            title='Content Form',
                            form=form,
                            contents=contents,
                            owner_data=owner_data)
+
+def handle_content_edit(content_id):
+    """Processing for the endpoint /content/edit/<content_id> to edit content"""
+
+    # content = Content.find_by_id(content_id)
+    # # flash error message if content does not exist
+    # if not content:
+    #     flash(f'Content does not exist!', 'danger')
+    #     return redirect(content_index())
+
+    return render_template('content_edit.html',
+                           content_id=content_id)
+
+
+def handle_content_delete(content_id):
+    """Processing for the endpoint /content/delete to delete a content"""
+
+    content = Content.find_by_id(content_id)
+    # flash error message if content does not exist
+    if not content:
+        flash(f'Content does not exist!', 'danger')
+        return jsonify('not deleted')
+
+    # content is deleted and user is redirected to content page
+    content.delete_content()
+    flash(f'{content.content_name} has been deleted!', 'success')
+    return jsonify('deleted')

@@ -7,10 +7,8 @@ from main.forms import OwnerForm
 def owner_index():
     """Processing of the endpoint /owners which handles the owner form"""
 
-    # Owner page is reset after user submits OwnerForm
+    # Following block executes to handle submission of OwnerForm
     form = OwnerForm()
-
-    # Following if block executes when the form is submitted and validated
     if form.validate_on_submit():
         # obtain the data from the form and clear the form fields
         name = form.owner_name.data
@@ -31,15 +29,16 @@ def owner_index():
         new_owner.save_owner()
         flash(f'User {name} has been created!', 'success')
 
-    # Get all existing owners from the database and render the view
+    # GET all existing owners from the database and render the view
     owners = Owner.get_all_owners()
-    return render_template('owner_form.html',
+    return render_template('owners.html',
                            title='Owner Form',
                            form=form,
                            owners=owners)
 
-def owner_delete(owner_id):
-    """Processing of the endpoint /owner/delete?owner_id to delete an owner"""
+
+def handle_owner_delete(owner_id):
+    """Processing of the endpoint /owner/delete to delete an owner"""
 
     owner = Owner.find_by_id(owner_id)
     # flash error message if owner does not exist

@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Length, Email, NumberRange, Regexp
 
 # FORM FOR ADDING NEW CONTENT
 class ContentForm(FlaskForm):
+    """Each Field defines a type of control on the new/edit content form"""
 
     # possible choices for content_type
     SELECT_CHOICES = [
@@ -39,6 +40,7 @@ class ContentForm(FlaskForm):
 
 # FORM FOR CREATING NEW OWNERS
 class OwnerForm(FlaskForm):
+    """Each Field defines a type of control on the new owner Form"""
 
     owner_name = StringField('Owner Name',
                              validators=[

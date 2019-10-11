@@ -30,6 +30,11 @@ class Content(db.Model):
         return cls.query.filter_by(content_name=name).first()
 
     @classmethod
+    def find_by_id(cls, _id):
+        """Finds the content by its unique id and returns it"""
+        return cls.query.filter_by(id=_id).first()
+
+    @classmethod
     def get_all_content(cls):
         """Returns all content in the contents table"""
         return cls.query.all()
