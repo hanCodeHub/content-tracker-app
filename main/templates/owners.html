@@ -70,7 +70,7 @@
                 <td class="text-center">{{ owner.joined_at }}</td>
                 <!-- Action buttons -->
                 <td class="text-center"> <!-- Pass owner.id into fetch request -->
-                    <a type="button" onclick="deleteOwner('{{ owner.id }}')">
+                    <a type="button" class="border-0" onclick="deleteOwner('{{ owner.id }}')">
                         <img src="../static/trash_icon.png">
                     </a>
                 </td>

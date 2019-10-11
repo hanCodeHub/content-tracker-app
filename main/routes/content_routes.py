@@ -65,15 +65,29 @@ def content_index():
 
 def handle_content_edit(content_id):
     """Processing for the endpoint /content/edit/<content_id> to edit content"""
+    
+    # if content does not exist, flash error message
+    content = Content.find_by_id(content_id)
+    if not content:
+        flash('Content no longer exists!', 'danger')
+        return redirect(url_for('content'))
 
-    # content = Content.find_by_id(content_id)
-    # # flash error message if content does not exist
-    # if not content:
-    #     flash(f'Content does not exist!', 'danger')
-    #     return redirect(content_index())
+    # form is pre-populated with existing content data
+    form = ContentForm()
+    form.content_name.data = content.content_name
+    form.owner_email.data = Owner.find_by_id(content.owner_id).owner_email
+    form.valid_months.data = content.valid_months
+    form.submit.data = "Update Content"
 
+    # choice stored in this content is looked up against all choices
+    for choice in ContentForm.SELECT_CHOICES:  # each choice is a tuple pair
+        # choice becomes default value on form if it matches the stored value
+        if choice[1] == content.content_type:
+            form.content_type.data = choice[0]
+    
     return render_template('content_edit.html',
-                           content_id=content_id)
+                           content=content,
+                           form=form)
 
 
 def handle_content_delete(content_id):

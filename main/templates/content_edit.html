@@ -1,5 +1,83 @@
 {% extends "layout.html" %}
 {% block content %}
-    {{ content_id }}
 
+    <div class="container">
+        <!-- form data is posted to the same route -->
+        <form method="POST" action="" class="mb-5 border-bottom">
+            {{ form.hidden_tag() }}
+    
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Make changes to: <strong>{{ content.content_name }}</strong>
+                </legend>
+    
+                <!-- Content Name -->
+                <div class="form-group">
+                    {{ form.content_name.label(class="form-control-label") }}
+                    {% if form.content_name.errors %}
+                        {{ form.content_name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content_name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+    
+                <!-- Content Type -->
+                <div class="form-group">
+                    {{ form.content_type.label(class="form-control-label") }}
+                        {% if form.content_type.errors %}
+                        {{ form.content_type(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content_type.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content_type(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+    
+                <!-- Owner Email -->
+                <div class="form-group">
+                    {{ form.owner_email.label(class="form-control-label") }}
+                        {% if form.owner_email.errors %}
+                        {{ form.owner_email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.owner_email.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.owner_email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+    
+                <!-- Valid Months -->
+                <div class="form-group">
+                    {{ form.valid_months.label(class="form-control-label") }}
+                        {% if form.valid_months.errors %}
+                        {{ form.valid_months(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.valid_months.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.valid_months(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+    
+            </fieldset>
+    
+            <div class="form-group">
+                {{ form.submit(class="btn btn-success") }}
+                <button class="btn btn-secondary ml-3">Cancel</button>
+            </div>
+        </form>
+    
+    </div>
 {% endblock content %}
