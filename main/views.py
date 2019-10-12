@@ -27,7 +27,7 @@ def content():
     return content_routes.content_index()
 
 # Route for /content/edit page - edit form modal displayed
-@app.route("/content/edit")
+@app.route("/content/edit", methods=["GET", "POST"])
 def content_edit():
     content_id = request.args.get('content_id')
     return content_routes.handle_content_edit(content_id)

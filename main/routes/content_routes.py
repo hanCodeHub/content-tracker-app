@@ -40,7 +40,8 @@ def content_index():
                               valid_months=valid_months,
                               owner_id=owner_obj.id)
         new_content.save_content()
-        flash(f'{owner_obj.owner_name} has added a new {content_type.lower()}!',
+
+        flash(f'{owner_obj.owner_name} has a new {content_type.lower()}!',
               'success')
         return redirect(url_for('content'))
 
@@ -65,28 +66,53 @@ def content_index():
 
 def handle_content_edit(content_id):
     """Processing for the endpoint /content/edit/<content_id> to edit content"""
-    
-    # if content does not exist, flash error message
+    form = ContentForm()
     content = Content.find_by_id(content_id)
+
+    # POST - for handling the edit content form
+    if form.validate_on_submit():
+        choice = form.content_type.data  # content type choice by user
+        choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
+
+        # validation - if owner does not exist, reload edit page with error msg
+        owner_email = form.owner_email.data
+        owner_obj = Owner.find_by_email(owner_email)
+        if not owner_obj:
+            flash(f'Owner with the email {owner_email} does not exist!',
+                  'danger')
+            return redirect(url_for('content_edit'))
+
+        # content is updated with form values and saved to the database
+        content.content_name = form.content_name.data.lower()
+        content.content_type = choices.get(choice)
+        content.valid_months = form.valid_months.data
+        content.updated_at = date.today()
+        content.owner_id = owner_obj.id
+        content.save_content()
+
+        # user is redirected to the main content page with success msg
+        flash(f'{content.content_name} has been updated!', 'success')
+        return redirect(url_for('content'))
+
+    # if content does not exist, flash error message
     if not content:
         flash('Content no longer exists!', 'danger')
         return redirect(url_for('content'))
 
     # form is pre-populated with existing content data
-    form = ContentForm()
     form.content_name.data = content.content_name
     form.owner_email.data = Owner.find_by_id(content.owner_id).owner_email
     form.valid_months.data = content.valid_months
     form.submit.data = "Update Content"
 
-    # choice stored in this content is looked up against all choices
-    for choice in ContentForm.SELECT_CHOICES:  # each choice is a tuple pair
+    # content type stored in this content is looked up against all types
+    for form_type in ContentForm.SELECT_CHOICES:  # each choice is a tuple pair
         # choice becomes default value on form if it matches the stored value
-        if choice[1] == content.content_type:
-            form.content_type.data = choice[0]
-    
+        if form_type[1] == content.content_type:
+            form.content_type.data = form_type[0]
+
     return render_template('content_edit.html',
-                           content=content,
+                           content_name=content.content_name.title(),
                            form=form)
 
 
