@@ -18,7 +18,7 @@ async function deleteContent(contentId) {
             },
             body: JSON.stringify({ content_id: contentId })
         }) // user is redirected to refresh/update content page
-            .then((res) => location.pathname = '/content')
+            .then((res) => location.reload())
             .catch(err => console.log(err))
     }
 }

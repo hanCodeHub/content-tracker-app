@@ -13,7 +13,7 @@ async function deleteOwner(ownerId) {
             },
             body: JSON.stringify({ owner_id: ownerId })
         }) // user is redirected to refresh/update owners page
-            .then((res) => location.pathname = '/owners')
+            .then((res) => location.reload())
             .catch(err => console.log(err))
     }
 }

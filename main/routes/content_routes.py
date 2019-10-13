@@ -1,5 +1,5 @@
 from flask import render_template, redirect, flash, url_for, jsonify
-from datetime import date
+from datetime import date, timedelta
 
 from main.models.ContentModel import Content
 from main.models.OwnerModel import Owner
@@ -94,6 +94,7 @@ def handle_content_edit(content_id):
         flash(f'{content.content_name} has been updated!', 'success')
         return redirect(url_for('content'))
 
+    # GET - display the form
     # if content does not exist, flash error message
     if not content:
         flash('Content no longer exists!', 'danger')
