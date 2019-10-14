@@ -18,7 +18,7 @@ class Owner(db.Model):
         self.owner_email = owner_email
         self.joined_at = joined_at
 
-    def __repr__(self):
+    def __str__(self):
         return f"Owner('{self.owner_name}','{self.owner_email}')"
 
     @classmethod
@@ -35,6 +35,10 @@ class Owner(db.Model):
     def get_all_owners(cls):
         """Returns all the owners in the owners table"""
         return cls.query.all()
+
+    def get_joined_date(self):
+        """returns the joined_at date in a readable format"""
+        return self.joined_at.strftime("%b %d, %Y")
 
     def save_owner(self):
         """Saves an owner to the owners table"""

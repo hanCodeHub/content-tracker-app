@@ -4,17 +4,30 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4">Content Tracker</h1>
+        <!-- Intro -->
         <p class="lead">
             A simple Python Flask application that tracks the lifecycle of product-related content.
         </p>
         <hr class="my-4">
-        <p>Start by either adding new content or updating existing content.</p>
-        <a class="btn btn-primary btn-lg" href="{{ url_for('content') }}" role="button">
+        <!-- Instructions -->
+        <ol>
+            <li>Start by adding new content owners</li>
+            <li>Then add new content and assign each one to an owner</li>
+        </ol>
+        <!-- Action buttons -->
+        <a class="btn btn-primary btn-lg ml-4" href="{{ url_for('content') }}" role="button">
             Add content
         </a>
-        <a class="btn btn-secondary btn-lg" href="{{ url_for('owner') }}" role="button">
+        <a class="btn btn-outline-info btn-lg ml-3" href="{{ url_for('owner') }}" role="button">
             Add content owner
         </a>
     </div>
 </div>
+<div class="container">
+    <h2>Features coming to this page in the future.</h2>
+    <ul>
+        <li><h3 class="font-weight-light">Login and registration</h3></li>
+    </ul>  
+</div>
+ 
 {% endblock header %}

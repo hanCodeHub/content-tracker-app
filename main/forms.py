@@ -46,7 +46,7 @@ class OwnerForm(FlaskForm):
                              validators=[
                                  DataRequired(),
                                  Length(min=2, max=20),
-                                 Regexp(regex='[A-Za-z]+',
+                                 Regexp(regex=r'^[A-Za-z\s]+$',
                                         message='Only enter letters and spaces')
                              ])
 

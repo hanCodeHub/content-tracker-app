@@ -1,5 +1,5 @@
-from flask import render_template, redirect, flash, url_for, jsonify
-from datetime import date, timedelta
+from flask import render_template, redirect, flash, url_for
+from datetime import date
 
 from main.models.ContentModel import Content
 from main.models.OwnerModel import Owner
@@ -11,6 +11,8 @@ def content_index():
 
     # POST - Following block executes to handle submission of ContentForm
     if form.validate_on_submit():
+
+        # content type choice is extracted from the form
         choice = form.content_type.data  # content type choice by user
         choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
 
@@ -41,48 +43,40 @@ def content_index():
                               owner_id=owner_obj.id)
         new_content.save_content()
 
-        flash(f'{owner_obj.owner_name} has a new {content_type.lower()}!',
-              'success')
+        flash(f'{owner_obj.owner_name} has been assigned a new '
+              f'{content_type.lower()}!', 'success')
         return redirect(url_for('content'))
 
     # GET all existing contents and render it in the view
     contents = Content.get_all_content()
 
-    # content_id:[owner_name, days_left] for each content stored in owner_data
-    content_data = {}
-    if contents:
-        for content in contents:
-            # for each content the owner is found and stored in content_data
-            content_owner = Owner.find_by_id(content.owner_id).owner_name
-            # for each content the days left until expiry is calculated
-            days_left = content.calc_days_left()
-
-            content_data[content.id] = [content_owner, days_left]
-
     # view is rendered with all contents and owner data
     return render_template('content.html',
                            title='Content Form',
                            form=form,
-                           contents=contents,
-                           content_data=content_data)
+                           contents=contents)
+
 
 def handle_content_edit(content_id):
-    """Processing for the endpoint /content/edit/<content_id> to edit content"""
+    """Processing for the endpoint /content/edit?content_id=<content_id>"""
     form = ContentForm()
     content = Content.find_by_id(content_id)
 
     # POST - for handling the edit content form
     if form.validate_on_submit():
-        choice = form.content_type.data  # content type choice by user
-        choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
 
-        # validation - if owner does not exist, reload edit page with error msg
+        # validation - owner email must exist
         owner_email = form.owner_email.data
         owner_obj = Owner.find_by_email(owner_email)
         if not owner_obj:
             flash(f'Owner with the email {owner_email} does not exist!',
                   'danger')
-            return redirect(url_for('content_edit'))
+            # if owner not exist, edit page is reloaded with same content id
+            return redirect(url_for('content_edit', content_id=content.id))
+
+        # content type choice is extracted from the form
+        choice = form.content_type.data  # user choice
+        choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
 
         # content is updated with form values and saved to the database
         content.content_name = form.content_name.data.lower()
@@ -98,11 +92,6 @@ def handle_content_edit(content_id):
         return redirect(url_for('content'))
 
     # GET - display the form
-    # if content does not exist, flash error message
-    if not content:
-        flash('Content no longer exists!', 'danger')
-        return redirect(url_for('content'))
-
     # form is pre-populated with existing content data
     form.content_name.data = content.content_name
     form.owner_email.data = Owner.find_by_id(content.owner_id).owner_email

@@ -12,14 +12,14 @@
             <div class="form-group">
                 {{ form.content_name.label(class="form-control-label") }}
                 {% if form.content_name.errors %}
-                    {{ form.content_name(class="form-control form-control-lg is-invalid") }}
+                    {{ form.content_name(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.content_name.errors %}
                         <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.content_name(class="form-control form-control-lg") }}
+                    {{ form.content_name(class="form-control") }}
                 {% endif %}
             </div>
 
@@ -27,14 +27,14 @@
             <div class="form-group">
                 {{ form.content_type.label(class="form-control-label") }}
                     {% if form.content_type.errors %}
-                    {{ form.content_type(class="form-control form-control-lg is-invalid") }}
+                    {{ form.content_type(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.content_type.errors %}
                         <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.content_type(class="form-control form-control-lg") }}
+                    {{ form.content_type(class="form-control") }}
                 {% endif %}
             </div>
 
@@ -42,14 +42,14 @@
             <div class="form-group">
                 {{ form.owner_email.label(class="form-control-label") }}
                     {% if form.owner_email.errors %}
-                    {{ form.owner_email(class="form-control form-control-lg is-invalid") }}
+                    {{ form.owner_email(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.owner_email.errors %}
                         <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.owner_email(class="form-control form-control-lg") }}
+                    {{ form.owner_email(class="form-control") }}
                 {% endif %}
             </div>
 
@@ -57,19 +57,20 @@
             <div class="form-group">
                 {{ form.valid_months.label(class="form-control-label") }}
                     {% if form.valid_months.errors %}
-                    {{ form.valid_months(class="form-control form-control-lg is-invalid") }}
+                    {{ form.valid_months(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
                         {% for error in form.valid_months.errors %}
                         <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.valid_months(class="form-control form-control-lg") }}
+                    {{ form.valid_months(class="form-control") }}
                 {% endif %}
             </div>
 
         </fieldset>
 
+        <!-- Submit button -->
         <div class="form-group">
             {{ form.submit(class="btn btn-success") }}
         </div>
@@ -100,11 +101,11 @@
                     <th scope="row" class="text-center">{{ content.id }}</th>
                     <td class="text-center">{{ content.content_name }}</td>
                     <td class="text-center">{{ content.content_type }}</td>
-                    <td class="text-center">{{ content.updated_at }}</td>
+                    <td class="text-center">{{ content.get_updated_date() }}</td>
                     <!-- days left is retrieved from content_data dictionary -->
-                    <td class="text-center">{{ content_data.get(content.id)[1] }}</td>
+                    <td class="text-center">{{ content.calc_days_left() }}</td>
                     <!-- owner name is retrieved from content_data dictionary -->
-                    <td class="text-center">{{ content_data.get(content.id)[0] }}</td>
+                    <td class="text-center">{{ content.get_owner() }}</td>
                     <!-- Action buttons -->
                     <td class="text-center"> <!-- Pass content.id into fetch requests -->
                         <a type="button" href="{{ url_for('content_edit', content_id=content.id) }}">

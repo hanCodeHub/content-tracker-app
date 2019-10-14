@@ -15,14 +15,14 @@
                 <div class="form-group">
                     {{ form.content_name.label(class="form-control-label") }}
                     {% if form.content_name.errors %}
-                        {{ form.content_name(class="form-control form-control-lg is-invalid") }}
+                        {{ form.content_name(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.content_name.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.content_name(class="form-control form-control-lg") }}
+                        {{ form.content_name(class="form-control") }}
                     {% endif %}
                 </div>
     
@@ -30,14 +30,14 @@
                 <div class="form-group">
                     {{ form.content_type.label(class="form-control-label") }}
                         {% if form.content_type.errors %}
-                        {{ form.content_type(class="form-control form-control-lg is-invalid") }}
+                        {{ form.content_type(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.content_type.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.content_type(class="form-control form-control-lg") }}
+                        {{ form.content_type(class="form-control") }}
                     {% endif %}
                 </div>
     
@@ -45,14 +45,14 @@
                 <div class="form-group">
                     {{ form.owner_email.label(class="form-control-label") }}
                         {% if form.owner_email.errors %}
-                        {{ form.owner_email(class="form-control form-control-lg is-invalid") }}
+                        {{ form.owner_email(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.owner_email.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.owner_email(class="form-control form-control-lg") }}
+                        {{ form.owner_email(class="form-control") }}
                     {% endif %}
                 </div>
     
@@ -60,24 +60,30 @@
                 <div class="form-group">
                     {{ form.valid_months.label(class="form-control-label") }}
                         {% if form.valid_months.errors %}
-                        {{ form.valid_months(class="form-control form-control-lg is-invalid") }}
+                        {{ form.valid_months(class="form-control is-invalid") }}
                         <div class="invalid-feedback">
                             {% for error in form.valid_months.errors %}
                             <span>{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.valid_months(class="form-control form-control-lg") }}
+                        {{ form.valid_months(class="form-control") }}
                     {% endif %}
                 </div>
     
             </fieldset>
     
             <div class="form-group">
+                <!-- Save button -->
                 {{ form.submit(class="btn btn-success") }}
+                <!-- Cancel button -->
                 <a href="{{ url_for('content') }}">
                     <button type="button" class="btn btn-secondary ml-3">Cancel</button>
                 </a>
+                <!-- Reminder message -->
+                <p class="mt-2 text-muted text-sm font-italic">
+                    *Saving will reset the number of days from today until content needs updating
+                </p>
             </div>        
         </form>
 
