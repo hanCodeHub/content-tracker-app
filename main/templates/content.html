@@ -75,6 +75,7 @@
         </div>
     </form>
 
+    <!-- Content Table -->
     {% if contents %}
     <header class="h4 mb-2">Existing Content</header>
         <table class="table">
@@ -85,7 +86,7 @@
                 <th scope="col" class="text-center">Content Name</th>
                 <th scope="col" class="text-center">Content Type</th>
                 <th scope="col" class="text-center">Updated At</th>
-                <th scope="col" class="text-center">Valid Months</th>
+                <th scope="col" class="text-center">Days Until Update</th>
                 <th scope="col" class="text-center">Owner</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
@@ -100,9 +101,10 @@
                     <td class="text-center">{{ content.content_name }}</td>
                     <td class="text-center">{{ content.content_type }}</td>
                     <td class="text-center">{{ content.updated_at }}</td>
-                    <td class="text-center">{{ content.valid_months }}</td>
-                    <!-- owner name is retrieved from dictionary using content id -->
-                    <td class="text-center">{{ owner_data.get(content.id) }}</td>
+                    <!-- days left is retrieved from content_data dictionary -->
+                    <td class="text-center">{{ content_data.get(content.id)[1] }}</td>
+                    <!-- owner name is retrieved from content_data dictionary -->
+                    <td class="text-center">{{ content_data.get(content.id)[0] }}</td>
                     <!-- Action buttons -->
                     <td class="text-center"> <!-- Pass content.id into fetch requests -->
                         <a type="button" href="{{ url_for('content_edit', content_id=content.id) }}">

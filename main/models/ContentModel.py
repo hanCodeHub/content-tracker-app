@@ -1,4 +1,5 @@
 from main import db
+from datetime import date, timedelta
 
 class Content(db.Model):
     __tablename__ = 'contents'
@@ -38,6 +39,15 @@ class Content(db.Model):
     def get_all_content(cls):
         """Returns all content in the contents table"""
         return cls.query.all()
+
+    def calc_valid_days(self):
+        """Converts the content's valid months to valid days and returns it"""
+        return round(self.valid_months * 365 / 12)
+
+    def calc_days_left(self):
+        """Returns the number of days left before content needs updating"""
+        days_passed = (date.today() - self.updated_at).days
+        return self.calc_valid_days() - days_passed
 
     def save_content(self):
         """Saves the content object to the contents table"""

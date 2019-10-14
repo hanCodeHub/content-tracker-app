@@ -7,9 +7,9 @@ from main.forms import ContentForm
 
 def content_index():
     """Processing for the endpoint /content which handles the content form"""
-
-    # Following block executes to handle submission of ContentForm
     form = ContentForm()
+
+    # POST - Following block executes to handle submission of ContentForm
     if form.validate_on_submit():
         choice = form.content_type.data  # content type choice by user
         choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
@@ -48,21 +48,23 @@ def content_index():
     # GET all existing contents and render it in the view
     contents = Content.get_all_content()
 
-    # owner_id:owner_name pairs for each content is stored in owner_data
-    owner_data = {}
+    # content_id:[owner_name, days_left] for each content stored in owner_data
+    content_data = {}
     if contents:
         for content in contents:
-            # for each content the owner is found
-            content_owner = Owner.find_by_id(content.owner_id)
-            if content_owner:
-                owner_data[content.id] = content_owner.owner_name
+            # for each content the owner is found and stored in content_data
+            content_owner = Owner.find_by_id(content.owner_id).owner_name
+            # for each content the days left until expiry is calculated
+            days_left = content.calc_days_left()
+
+            content_data[content.id] = [content_owner, days_left]
 
     # view is rendered with all contents and owner data
     return render_template('content.html',
                            title='Content Form',
                            form=form,
                            contents=contents,
-                           owner_data=owner_data)
+                           content_data=content_data)
 
 def handle_content_edit(content_id):
     """Processing for the endpoint /content/edit/<content_id> to edit content"""
@@ -86,8 +88,9 @@ def handle_content_edit(content_id):
         content.content_name = form.content_name.data.lower()
         content.content_type = choices.get(choice)
         content.valid_months = form.valid_months.data
-        content.updated_at = date.today()
+        content.updated_at = date.today()  # today's date becomes last updated
         content.owner_id = owner_obj.id
+
         content.save_content()
 
         # user is redirected to the main content page with success msg
@@ -107,7 +110,8 @@ def handle_content_edit(content_id):
     form.submit.data = "Update Content"
 
     # content type stored in this content is looked up against all types
-    for form_type in ContentForm.SELECT_CHOICES:  # each choice is a tuple pair
+    # each choice is a tuple pair - (stored choice, displayed choice)
+    for form_type in ContentForm.SELECT_CHOICES:
         # choice becomes default value on form if it matches the stored value
         if form_type[1] == content.content_type:
             form.content_type.data = form_type[0]
@@ -124,9 +128,9 @@ def handle_content_delete(content_id):
     # flash error message if content does not exist
     if not content:
         flash(f'Content does not exist!', 'danger')
-        return jsonify('not deleted')
+        return 'not deleted', 404
 
     # content is deleted and user is redirected to content page
     content.delete_content()
     flash(f'{content.content_name} has been deleted!', 'success')
-    return jsonify('deleted')
+    return 'deleted', 202

@@ -1,8 +1,3 @@
-// onclick handler function for editing content on the content page
-function editContent(contentId) {
-    location.pathname = `/content/edit/${contentId}`
-}
-
 // onclick handler function for deleting content on the content page
 async function deleteContent(contentId) {
 
@@ -18,7 +13,7 @@ async function deleteContent(contentId) {
             },
             body: JSON.stringify({ content_id: contentId })
         }) // user is redirected to refresh/update content page
-            .then((res) => location.reload())
-            .catch(err => console.log(err))
+        .then((res) => location.reload())
+        .catch(err => console.log(err))
     }
 }

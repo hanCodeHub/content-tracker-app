@@ -1,4 +1,4 @@
-from flask import render_template, redirect, flash, url_for, jsonify
+from flask import render_template, redirect, flash, url_for, jsonify, g
 from datetime import date
 
 from main.models.OwnerModel import Owner
@@ -28,6 +28,7 @@ def owner_index():
                           )
         new_owner.save_owner()
         flash(f'User {name} has been created!', 'success')
+        return redirect(url_for('owner'))
 
     # GET all existing owners from the database and render the view
     owners = Owner.get_all_owners()
@@ -44,13 +45,13 @@ def handle_owner_delete(owner_id):
     # flash error message if owner does not exist
     if not owner:
         flash(f'Owner does not exist!', 'danger')
-        return jsonify('not deleted')
+        return 'not deleted', 404
     # flash error message if owner still has existing content
     elif owner.contents:
         flash(f'{owner.owner_name} still has existing content!', 'danger')
-        return jsonify('not deleted')
+        return 'not deleted', 400
 
     # owner is deleted and user is redirected to owner page
     owner.delete_owner()
     flash(f'{owner.owner_name} has been deleted!', 'success')
-    return jsonify('deleted')
+    return 'deleted', 202
