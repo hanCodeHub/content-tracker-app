@@ -11,7 +11,7 @@
 ## Description
 
 #### Purpose
-This is a small web application developed as a term project for the course MET CS 521 at Boston University. The app is built entirely using Python and the Flask microframework to showcase the usage of Python functional and classical programming, as well as MVC concepts. Javascript (ES6) is used to handle events and asynchronous requests.
+This is a small web application developed as a term project for the course MET CS 521 at Boston University. The app is built entirely using Python and the Flask microframework to showcase the usage of Python functional and OOP programming, as well as MVC concepts. Javascript (ES6) is used to handle events and asynchronous requests.
 
 #### Usage
 The application will track the lifecycle of product-related content, such as media files, documents, etc. It should display in the UI when the content expires, which the user can specify via a form. Visual cues indicate when content needs updating soon. Version details and owner email are attached to each piece of content.

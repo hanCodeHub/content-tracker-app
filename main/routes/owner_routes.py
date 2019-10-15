@@ -1,4 +1,5 @@
-from flask import render_template, redirect, flash, url_for, jsonify, g
+from flask import render_template, redirect, flash, url_for
+from werkzeug.exceptions import HTTPException
 from datetime import date
 
 from main.models.OwnerModel import Owner
@@ -24,9 +25,14 @@ def owner_index():
         # create and save the new owner with form data
         new_owner = Owner(owner_name=name,
                           owner_email=email,
-                          joined_at=date.today()
-                          )
-        new_owner.save_owner()
+                          joined_at=date.today())
+
+        # saving owner errors are handled
+        try:
+            new_owner.save_owner()
+        except HTTPException:
+            return "Server cannot save the owner at this time", 500
+
         flash(f'User {name} has been created!', 'success')
         return redirect(url_for('owner'))
 
@@ -51,7 +57,12 @@ def handle_owner_delete(owner_id):
         flash(f'{owner.owner_name} still has existing content!', 'danger')
         return 'not deleted', 400
 
-    # owner is deleted and user is redirected to owner page
-    owner.delete_owner()
+    # owner is deleted and user is redirected (redirect code in owners.js)
+    # deleting owner errors handled
+    try:
+        owner.delete_owner()
+    except HTTPException:
+        return "Server cannot delete the owner at this time", 500
+
     flash(f'{owner.owner_name} has been deleted!', 'success')
     return 'deleted', 202

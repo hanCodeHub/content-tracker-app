@@ -23,7 +23,10 @@ class Content(db.Model):
         self.valid_months = valid_months
         self.owner_id = owner_id
 
-    def __str__(self):
+        # __valid_days is for temporary processing only - not saved to database
+        self.__valid_days = 0
+
+    def __repr__(self):
         return f"Content('{self.content_name}', '{self.content_type}')"
 
     @classmethod
@@ -55,11 +58,19 @@ class Content(db.Model):
         """returns the updated_at date in a readable format"""
         return self.updated_at.strftime("%b %d, %Y")
 
-    def calc_days_left(self):
-        """Returns the number of days left before content needs updating"""
-        valid_days = round(self.valid_months * 365 / 12)
+    def __calc_days_left(self, months):
+        """calculates and sets number of days before content expires"""
+
+        # days passed = today - when content was last updated
         days_passed = (date.today() - self.updated_at).days
-        return valid_days - days_passed
+
+        # valid days = total valid days - days passed since last update
+        self.__valid_days = round(months * 365 / 12) - days_passed
+
+    def get_valid_days(self):
+        """returns number of days before content expires"""
+        self.__calc_days_left(self.valid_months)
+        return self.__valid_days
 
     def get_owner(self):
         """Returns the name of the owner associated with the owner_id"""

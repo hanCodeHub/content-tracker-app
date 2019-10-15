@@ -18,7 +18,7 @@ class Owner(db.Model):
         self.owner_email = owner_email
         self.joined_at = joined_at
 
-    def __str__(self):
+    def __repr__(self):
         return f"Owner('{self.owner_name}','{self.owner_email}')"
 
     @classmethod

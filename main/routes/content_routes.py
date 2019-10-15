@@ -1,4 +1,5 @@
 from flask import render_template, redirect, flash, url_for
+from werkzeug.exceptions import HTTPException
 from datetime import date
 
 from main.models.ContentModel import Content
@@ -41,7 +42,12 @@ def content_index():
                               updated_at=date.today(),
                               valid_months=valid_months,
                               owner_id=owner_obj.id)
-        new_content.save_content()
+
+        # saving content errors handled
+        try:
+            new_content.save_content()
+        except HTTPException:
+            return "Server cannot save the content at this time", 500
 
         flash(f'{owner_obj.owner_name} has been assigned a new '
               f'{content_type.lower()}!', 'success')
@@ -59,7 +65,11 @@ def content_index():
 
 def handle_content_edit(content_id):
     """Processing for the endpoint /content/edit?content_id=<content_id>"""
+
+    # instance of ContentForm is available to both GET and POST requests
     form = ContentForm()
+
+    # content will be None if it cannot be found
     content = Content.find_by_id(content_id)
 
     # POST - for handling the edit content form
@@ -85,7 +95,11 @@ def handle_content_edit(content_id):
         content.updated_at = date.today()  # today's date becomes last updated
         content.owner_id = owner_obj.id
 
-        content.save_content()
+        # saving content errors handled
+        try:
+            content.save_content()
+        except HTTPException:
+            return "Server cannot update the content at this time", 500
 
         # user is redirected to the main content page with success msg
         flash(f'{content.content_name} has been updated!', 'success')
@@ -119,7 +133,12 @@ def handle_content_delete(content_id):
         flash(f'Content does not exist!', 'danger')
         return 'not deleted', 404
 
-    # content is deleted and user is redirected to content page
-    content.delete_content()
+    # content is deleted and user is redirected (redirect code in content.js)
+    # deleting content errors handled
+    try:
+        content.delete_content()
+    except HTTPException:
+        return "Server cannot delete the content at this time", 500
+
     flash(f'{content.content_name} has been deleted!', 'success')
     return 'deleted', 202

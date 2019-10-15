@@ -103,7 +103,7 @@
                     <td class="text-center">{{ content.content_type }}</td>
                     <td class="text-center">{{ content.get_updated_date() }}</td>
                     <!-- days left is retrieved from content_data dictionary -->
-                    <td class="text-center">{{ content.calc_days_left() }}</td>
+                    <td class="text-center">{{ content.get_valid_days() }}</td>
                     <!-- owner name is retrieved from content_data dictionary -->
                     <td class="text-center">{{ content.get_owner() }}</td>
                     <!-- Action buttons -->
