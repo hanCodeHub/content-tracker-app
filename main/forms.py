@@ -31,7 +31,7 @@ class ContentForm(FlaskForm):
                                   DataRequired(), Email()
                               ])
 
-    valid_months = IntegerField('Valid Months From Today',
+    valid_months = IntegerField('Months Until Next Update',
                                 default=1,
                                 validators=[NumberRange(min=1, max=60)])
 

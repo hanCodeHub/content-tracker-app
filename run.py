@@ -1,4 +1,4 @@
-from main import app, db
+from main.config import app, db
 
 # only true if run from run.py
 if __name__ == '__main__':

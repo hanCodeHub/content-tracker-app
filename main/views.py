@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request
 
-from main import app
+from main.config import app
 from main.routes import inventory_routes, content_routes, owner_routes
 
 # APP ENDPOINTS

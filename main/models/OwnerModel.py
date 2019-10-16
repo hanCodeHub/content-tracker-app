@@ -1,4 +1,4 @@
-from main import db
+from main.config import db
 
 class Owner(db.Model):
     __tablename__ = 'owners'
@@ -19,7 +19,10 @@ class Owner(db.Model):
         self.joined_at = joined_at
 
     def __repr__(self):
-        return f"Owner('{self.owner_name}','{self.owner_email}')"
+        return ("This instance of Owner:\n"
+                f"owner_name = {self.owner_name}\n"
+                f"owner_email = {self.owner_email}\n"
+                f"joined_at = {self.joined_at}")
 
     @classmethod
     def find_by_email(cls, email):

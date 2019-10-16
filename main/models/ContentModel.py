@@ -1,4 +1,4 @@
-from main import db
+from main.config import db
 from datetime import date
 from main.models.OwnerModel import Owner
 
@@ -27,7 +27,14 @@ class Content(db.Model):
         self.__valid_days = 0
 
     def __repr__(self):
-        return f"Content('{self.content_name}', '{self.content_type}')"
+        return (
+            f"This instance of Content:\n"
+            f"content_name = {self.content_name}\n"
+            f"content_type = {self.content_type}\n"
+            f"updated_at = {self.updated_at}\n"
+            f"valid_months = {self.valid_months}\n"
+            f"owner_id = {self.owner_id}"
+        )
 
     @classmethod
     def find_by_name(cls, name):
@@ -63,9 +70,10 @@ class Content(db.Model):
 
         # days passed = today - when content was last updated
         days_passed = (date.today() - self.updated_at).days
-
         # valid days = total valid days - days passed since last update
-        self.__valid_days = round(months * 365 / 12) - days_passed
+        days_left = round(months * 365 / 12) - days_passed
+        # __valid_days is set to 0 if negative
+        self.__valid_days = days_left if days_left >= 0 else 0
 
     def get_valid_days(self):
         """returns number of days before content expires"""

@@ -19,7 +19,7 @@ def content_index():
 
         # user input from the content form is stored in the following:
         owner_email = form.owner_email.data
-        content_name = form.content_name.data.lower()
+        content_name = form.content_name.data.title()
         content_type = choices.get(choice)
         valid_months = form.valid_months.data
 
@@ -56,6 +56,8 @@ def content_index():
     # GET all existing contents and render it in the view
     contents = Content.get_all_content()
 
+    # for each content __valid_days is tested for negative values
+
     # view is rendered with all contents and owner data
     return render_template('content.html',
                            title='Content Form',
@@ -89,7 +91,7 @@ def handle_content_edit(content_id):
         choices = dict(ContentForm.SELECT_CHOICES)  # all possible choices
 
         # content is updated with form values and saved to the database
-        content.content_name = form.content_name.data.lower()
+        content.content_name = form.content_name.data.title()
         content.content_type = choices.get(choice)
         content.valid_months = form.valid_months.data
         content.updated_at = date.today()  # today's date becomes last updated
@@ -120,7 +122,7 @@ def handle_content_edit(content_id):
             form.content_type.data = form_type[0]
 
     return render_template('content_edit.html',
-                           content_name=content.content_name.title(),
+                           content_name=content.content_name,
                            form=form)
 
 

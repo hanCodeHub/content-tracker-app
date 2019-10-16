@@ -11,11 +11,9 @@ def owner_index():
     # Following block executes to handle submission of OwnerForm
     form = OwnerForm()
     if form.validate_on_submit():
-        # obtain the data from the form and clear the form fields
+        # obtain the data from the form
         name = form.owner_name.data
         email = form.owner_email.data
-        form.owner_email.data = ''
-        form.owner_name.data = ''
 
         # validate whether owner already exists
         if Owner.find_by_email(email):
@@ -23,7 +21,7 @@ def owner_index():
             return redirect(url_for('owner'))
 
         # create and save the new owner with form data
-        new_owner = Owner(owner_name=name,
+        new_owner = Owner(owner_name=name.title(),
                           owner_email=email,
                           joined_at=date.today())
 
