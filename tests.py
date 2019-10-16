@@ -3,14 +3,15 @@ from datetime import date
 
 from main.models.ContentModel import Content
 
-
 class ContentModelTests(unittest.TestCase):
     """test_content is used as the test object for methods in Content"""
-    test_content = Content(content_name="Test Content",
-                           content_type="Video",
-                           updated_at=date(2019, 10, 15),
-                           valid_months=2,
-                           owner_id=0)
+    test_content = Content(
+        content_name="Test Content",
+        content_type="Video",
+        updated_at=date(2019, 10, 15),
+        valid_months=2,
+        owner_id=0
+    )
 
     def test_get_updated_date(self):
         """

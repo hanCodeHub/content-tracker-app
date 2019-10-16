@@ -1,4 +1,4 @@
-from main.config import db
+from main import db
 from datetime import date
 from main.models.OwnerModel import Owner
 

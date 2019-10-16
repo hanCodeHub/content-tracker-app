@@ -1,4 +1,4 @@
-from main.config import db
+from main import db
 
 class Owner(db.Model):
     __tablename__ = 'owners'
