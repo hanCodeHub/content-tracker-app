@@ -108,10 +108,10 @@
                     <td class="text-center">{{ content.get_owner() }}</td>
                     <!-- Action buttons -->
                     <td class="text-center"> <!-- Pass content.id into fetch requests -->
-                        <a type="button" href="{{ url_for('content_edit', content_id=content.id) }}">
+                        <a href="{{ url_for('content_edit', content_id=content.id) }}">
                             <img src="../static/edit_icon.png" alt="edit">
                         </a>
-                        <a class="ml-1" type="button" onclick="deleteContent('{{ content.id }}')">
+                        <a class="ml-1" onclick="deleteContent('{{ content.id }}')">
                             <img src="../static/trash_icon.png" alt="delete">
                         </a>
                     </td>

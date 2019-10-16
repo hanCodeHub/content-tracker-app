@@ -71,7 +71,7 @@
                 <td class="text-center">{{ owner.get_joined_date() }}</td>
                 <!-- Action buttons -->
                 <td class="text-center"> <!-- Pass owner.id into fetch request -->
-                    <a type="button" class="border-0" onclick="deleteOwner('{{ owner.id }}')">
+                    <a class="border-0" onclick="deleteOwner('{{ owner.id }}')">
                         <img src="../static/trash_icon.png">
                     </a>
                 </td>
