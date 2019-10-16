@@ -10,4 +10,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# views imported after app config to avoid circular imports
 from main import views
